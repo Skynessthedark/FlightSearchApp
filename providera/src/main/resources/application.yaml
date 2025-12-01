@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: providera
+server:
+  port: 8081
