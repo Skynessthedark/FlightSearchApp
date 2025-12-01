@@ -1,6 +1,6 @@
-package com.flightservice.providera.model;
+package com.flightservice.providerb.model;
 
-import com.flightservice.providera.adapter.LocalDateTimeAdapter;
+import com.flightservice.providerb.adapter.LocalDateTimeAdapter;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -8,11 +8,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.time.LocalDateTime;
 
-@XmlRootElement(name = "SearchRequest", namespace = "http://flightsearch.com/provider/a")
+@XmlRootElement(name = "SearchRequest", namespace = "http://flightsearch.com/provider/b")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SearchRequest {
-	private String origin = "";
-	private String destination = "";
+
+	private String departure = "";
+	private String arrival = "";
 
 	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
 	private LocalDateTime departureDate;
@@ -20,26 +21,26 @@ public class SearchRequest {
 	public SearchRequest() {
 	}
 
-	public SearchRequest(String origin, String destination, LocalDateTime departureDate) {
-		this.origin = origin;
-		this.destination = destination;
+	public SearchRequest(String departure, String arrival, LocalDateTime departureDate) {
+		this.departure = departure;
+		this.arrival = arrival;
 		this.departureDate = departureDate;
 	}
 
-	public String getOrigin() {
-		return origin;
+	public String getDeparture() {
+		return departure;
 	}
 
-	public void setOrigin(String origin) {
-		this.origin = origin;
+	public void setDeparture(String departure) {
+		this.departure = departure;
 	}
 
-	public String getDestination() {
-		return destination;
+	public String getArrival() {
+		return arrival;
 	}
 
-	public void setDestination(String destination) {
-		this.destination = destination;
+	public void setArrival(String arrival) {
+		this.arrival = arrival;
 	}
 
 	public LocalDateTime getDepartureDate() {

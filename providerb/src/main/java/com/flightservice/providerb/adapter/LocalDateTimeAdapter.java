@@ -1,4 +1,4 @@
-package com.flightservice.providera.adapter;
+package com.flightservice.providerb.adapter;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 

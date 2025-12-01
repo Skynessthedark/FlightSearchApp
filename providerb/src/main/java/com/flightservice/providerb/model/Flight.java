@@ -1,6 +1,6 @@
-package com.flightservice.providera.model;
+package com.flightservice.providerb.model;
 
-import com.flightservice.providera.adapter.LocalDateTimeAdapter;
+import com.flightservice.providerb.adapter.LocalDateTimeAdapter;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Flight {
 
-    private String flightNo;
-    private String origin;
-    private String destination;
+    private String flightNumber;
+    private String departure;
+    private String arrival;
 
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime departuredatetime;
@@ -22,10 +22,10 @@ public class Flight {
 
     private BigDecimal price;
 
-    public Flight(String flightNo, String origin, String destination, LocalDateTime departuredatetime, LocalDateTime arrivaldatetime, BigDecimal price) {
-        this.flightNo = flightNo;
-        this.origin = origin;
-        this.destination = destination;
+    public Flight(String flightNumber, String departure, String arrival, LocalDateTime departuredatetime, LocalDateTime arrivaldatetime, BigDecimal price) {
+        this.flightNumber = flightNumber;
+        this.departure = departure;
+        this.arrival = arrival;
         this.departuredatetime = departuredatetime;
         this.arrivaldatetime = arrivaldatetime;
         this.price = price;
@@ -34,28 +34,28 @@ public class Flight {
     public Flight() {
     }
 
-    public String getFlightNo() {
-        return flightNo;
+    public String getFlightNumber() {
+        return flightNumber;
     }
 
-    public void setFlightNo(String flightNo) {
-        this.flightNo = flightNo;
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
     }
 
-    public String getOrigin() {
-        return origin;
+    public String getDeparture() {
+        return departure;
     }
 
-    public void setOrigin(String origin) {
-        this.origin = origin;
+    public void setDeparture(String departure) {
+        this.departure = departure;
     }
 
-    public String getDestination() {
-        return destination;
+    public String getArrival() {
+        return arrival;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setArrival(String arrival) {
+        this.arrival = arrival;
     }
 
     public LocalDateTime getDeparturedatetime() {

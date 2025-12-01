@@ -1,4 +1,4 @@
-package com.flightservice.providera.model;
+package com.flightservice.providerb.model;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -7,7 +7,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "SearchResult", namespace = "http://flightsearch.com/provider/a")
+@XmlRootElement(name = "SearchResult", namespace = "http://flightsearch.com/provider/b")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SearchResult {
 	private boolean hasError = false;

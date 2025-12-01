@@ -1,21 +1,21 @@
 package com.flightservice.providerb.endpoint;
 
-import com.flightservice.providera.model.SearchRequest;
-import com.flightservice.providera.model.SearchResult;
-import com.flightservice.providera.service.SearchService;
+import com.flightservice.providerb.model.SearchRequest;
+import com.flightservice.providerb.model.SearchResult;
+import com.flightservice.providerb.service.SearchService;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
-public class FlightServiceAEndpoint {
+public class FlightServiceBEndpoint {
 
-    private static final String NAMESPACE_URI = "http://flightsearch.com/provider/a";
+    private static final String NAMESPACE_URI = "http://flightsearch.com/provider/b";
 
     private final SearchService searchService;
 
-    public FlightServiceAEndpoint(SearchService searchService) {
+    public FlightServiceBEndpoint(SearchService searchService) {
         this.searchService = searchService;
     }
 
