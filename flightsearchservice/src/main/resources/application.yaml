@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: flightsearch
+  datasource:
+    url: jdbc:postgresql://localhost:5432/flightsearchdb
+    username: postgres
+    password: flight123*
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+soap:
+  providerA:
+    url: http://localhost:8081/FlightProviderAService?wsdl
+  providerB:
+    url: http://localhost:8082/FlightProviderBService?wsdl
+
+server:
+  port: 8080
