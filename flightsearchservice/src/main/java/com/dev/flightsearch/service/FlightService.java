@@ -2,14 +2,12 @@ package com.dev.flightsearch.service;
 
 import com.dev.flightsearch.payload.Flight;
 import com.dev.flightsearch.payload.FlightRequest;
+import com.dev.flightsearch.payload.record.FlightKey;
 import com.dev.flightsearch.service.client.FlightProviderAClient;
 import com.dev.flightsearch.service.client.FlightProviderBClient;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,18 +30,16 @@ public class FlightService {
 
     public List<Flight> getCheapestFlights(FlightRequest request) {
         List<Flight> flights = getAllFlights(request);
-        return flights.stream()
-                .collect(Collectors.groupingBy(f -> f.getFlightNumber() + "|" +
-                        f.getDeparture() + "|" +
-                        f.getArrival() + "|" +
-                        f.getDepartureDate() + "|" +
-                        f.getArrivalDate()))
-                .values()
-                .stream()
-                .map(fs -> fs.stream()
-                        .min(Comparator.comparing(Flight::getPrice))
-                        .orElse(null))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+
+        Map<FlightKey, List<Flight>> groupedFlights = flights.stream().collect(
+                Collectors.groupingBy(flight ->
+                        new FlightKey(flight.getFlightNumber(), flight.getDeparture(), flight.getArrival(),
+                            flight.getDepartureDate().toString(),flight.getArrivalDate().toString())));
+
+        List<Flight> cheapestFlights = new ArrayList<>(groupedFlights.values().stream().map(f ->
+                f.stream().min(Comparator.comparing(Flight::getPrice)).get()).toList());
+
+        cheapestFlights.sort(Comparator.comparing(Flight::getPrice));
+        return cheapestFlights;
     }
 }
