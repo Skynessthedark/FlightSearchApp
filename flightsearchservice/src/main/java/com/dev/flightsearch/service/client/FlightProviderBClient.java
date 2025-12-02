@@ -46,8 +46,8 @@ public class FlightProviderBClient {
             flight.setFlightNumber(f.getFlightNumber());
             flight.setDeparture(f.getDeparture());
             flight.setArrival(f.getArrival());
-            flight.setDepartureDate(f.getDeparturedatetime());
-            flight.setArrivalDate(f.getArrivaldatetime());
+            flight.setDepartureDate(f.getDepartureDateTime());
+            flight.setArrivalDate(f.getArrivalDateTime());
             flight.setPrice(f.getPrice());
             return flight;
         }).toList();

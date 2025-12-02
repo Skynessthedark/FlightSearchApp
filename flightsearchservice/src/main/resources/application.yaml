@@ -16,9 +16,8 @@ spring:
 
 soap:
   providerA:
-    url: http://localhost:8081/FlightProviderAService?wsdl
+    url: http://localhost:8081/ws
   providerB:
-    url: http://localhost:8082/FlightProviderBService?wsdl
-
+    url: http://localhost:8082/ws
 server:
   port: 8080

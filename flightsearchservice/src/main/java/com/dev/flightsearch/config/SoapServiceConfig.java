@@ -19,7 +19,7 @@ public class SoapServiceConfig {
     @Bean
     public Jaxb2Marshaller marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setPackagesToScan("com.dev.flightsearch.service.client");
+        marshaller.setPackagesToScan("com.dev.flightsearch.payload.soap");
         return marshaller;
     }
 }

@@ -3,6 +3,7 @@ package com.flightservice.providerb.model;
 import com.flightservice.providerb.adapter.LocalDateTimeAdapter;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.math.BigDecimal;
@@ -11,23 +12,28 @@ import java.time.LocalDateTime;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Flight {
 
+    @XmlElement(name = "flightNumber")
     private String flightNumber;
+    @XmlElement(name = "departure")
     private String departure;
+    @XmlElement(name = "arrival")
     private String arrival;
 
+    @XmlElement(name = "departuredatetime")
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
-    private LocalDateTime departuredatetime;
+    private LocalDateTime departureDateTime;
+    @XmlElement(name = "arrivaldatetime")
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
-    private LocalDateTime arrivaldatetime;
-
+    private LocalDateTime arrivalDateTime;
+    @XmlElement(name = "price")
     private BigDecimal price;
 
-    public Flight(String flightNumber, String departure, String arrival, LocalDateTime departuredatetime, LocalDateTime arrivaldatetime, BigDecimal price) {
+    public Flight(String flightNumber, String departure, String arrival, LocalDateTime departureDateTime, LocalDateTime arrivalDateTime, BigDecimal price) {
         this.flightNumber = flightNumber;
         this.departure = departure;
         this.arrival = arrival;
-        this.departuredatetime = departuredatetime;
-        this.arrivaldatetime = arrivaldatetime;
+        this.departureDateTime = departureDateTime;
+        this.arrivalDateTime = arrivalDateTime;
         this.price = price;
     }
 
@@ -58,20 +64,20 @@ public class Flight {
         this.arrival = arrival;
     }
 
-    public LocalDateTime getDeparturedatetime() {
-        return departuredatetime;
+    public LocalDateTime getDepartureDateTime() {
+        return departureDateTime;
     }
 
-    public void setDeparturedatetime(LocalDateTime departuredatetime) {
-        this.departuredatetime = departuredatetime;
+    public void setDepartureDateTime(LocalDateTime departureDateTime) {
+        this.departureDateTime = departureDateTime;
     }
 
-    public LocalDateTime getArrivaldatetime() {
-        return arrivaldatetime;
+    public LocalDateTime getArrivalDateTime() {
+        return arrivalDateTime;
     }
 
-    public void setArrivaldatetime(LocalDateTime arrivaldatetime) {
-        this.arrivaldatetime = arrivaldatetime;
+    public void setArrivalDateTime(LocalDateTime arrivalDateTime) {
+        this.arrivalDateTime = arrivalDateTime;
     }
 
     public BigDecimal getPrice() {

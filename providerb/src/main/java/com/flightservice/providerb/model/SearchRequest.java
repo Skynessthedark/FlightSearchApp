@@ -3,6 +3,7 @@ package com.flightservice.providerb.model;
 import com.flightservice.providerb.adapter.LocalDateTimeAdapter;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -12,9 +13,12 @@ import java.time.LocalDateTime;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SearchRequest {
 
+	@XmlElement(name = "departure", namespace = "http://flightsearch.com/provider/b")
 	private String departure = "";
+	@XmlElement(name = "arrival", namespace = "http://flightsearch.com/provider/b")
 	private String arrival = "";
 
+	@XmlElement(name = "departureDate", namespace = "http://flightsearch.com/provider/b")
 	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
 	private LocalDateTime departureDate;
 

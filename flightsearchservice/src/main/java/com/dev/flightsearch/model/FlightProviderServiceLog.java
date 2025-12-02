@@ -8,8 +8,8 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "flight_provider_log")
-public class FlightProviderLog {
+@Table(name = "flight_provider_service_log")
+public class FlightProviderServiceLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,6 +2,7 @@ package com.flightservice.providerb.model;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
@@ -10,9 +11,13 @@ import java.util.List;
 @XmlRootElement(name = "SearchResult", namespace = "http://flightsearch.com/provider/b")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SearchResult {
+	@XmlElement(name = "hasError", namespace = "http://flightsearch.com/provider/b")
 	private boolean hasError = false;
 
+	@XmlElement(name = "flightOptions", namespace = "http://flightsearch.com/provider/b")
 	private List<Flight> flightOptions = new ArrayList<>();
+
+	@XmlElement(name = "errorMessage", namespace = "http://flightsearch.com/provider/b")
 	private String errorMessage;
 
 	public SearchResult() {
