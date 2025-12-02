@@ -1,9 +1,13 @@
 package com.dev.flightsearch.service.client;
 
+import com.dev.flightsearch.model.enums.FlightProviderType;
 import com.dev.flightsearch.payload.Flight;
 import com.dev.flightsearch.payload.FlightRequest;
 import com.dev.flightsearch.payload.soap.FlightProviderARequest;
 import com.dev.flightsearch.payload.soap.FlightProviderAResponse;
+import com.dev.flightsearch.payload.soap.FlightProviderBRequest;
+import com.dev.flightsearch.payload.soap.FlightProviderBResponse;
+import com.dev.flightsearch.service.FlightProviderLogService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -16,23 +20,35 @@ import java.util.Objects;
 public class FlightProviderAClient {
 
     private final WebServiceTemplate webServiceTemplate;
+    private final FlightProviderLogService flightProviderLogService;
 
     @Value("${soap.providerA.url}")
     private String providerAUrl;
 
-    public FlightProviderAClient(WebServiceTemplate webServiceTemplate) {
+    public FlightProviderAClient(WebServiceTemplate webServiceTemplate, FlightProviderLogService flightProviderLogService) {
         this.webServiceTemplate = webServiceTemplate;
+        this.flightProviderLogService = flightProviderLogService;
     }
 
     public List<Flight> searchFlights(FlightRequest request) {
         FlightProviderARequest soapRequest = getSoapRequest(request);
 
-        //TODO: req log
-        FlightProviderAResponse response =
-                (FlightProviderAResponse) webServiceTemplate.marshalSendAndReceive(providerAUrl, soapRequest);
+        saveLog(soapRequest, null, false);
 
-        //TODO: res log
+        FlightProviderAResponse response = null;
+        try{
+            response = (FlightProviderAResponse) webServiceTemplate.marshalSendAndReceive(providerAUrl, soapRequest);
+            saveLog(soapRequest, response, Objects.isNull(response) || response.isHasError());
+        }catch (Exception e){
+            saveLog(soapRequest, null, true);
+            e.printStackTrace();
+        }
+
         return getFlightList(response);
+    }
+
+    private void saveLog(FlightProviderARequest request, FlightProviderAResponse response, boolean hasError){
+        flightProviderLogService.saveLog(FlightProviderType.A, request, response, hasError);
     }
 
     private List<Flight> getFlightList(FlightProviderAResponse response) {

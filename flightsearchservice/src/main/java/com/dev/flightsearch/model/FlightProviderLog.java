@@ -8,8 +8,8 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "flight_provider_service_log")
-public class FlightProviderServiceLog {
+@Table(name = "flight_provider_log")
+public class FlightProviderLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +19,12 @@ public class FlightProviderServiceLog {
     @Column(name = "provider_type")
     private FlightProviderType providerType;
 
-    @Column(columnDefinition = "jsonb")
+    private boolean hasError;
+
+    @Column(columnDefinition = "TEXT")
     private String request;
 
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "TEXT")
     private String response;
 
     private Date createdAt;
