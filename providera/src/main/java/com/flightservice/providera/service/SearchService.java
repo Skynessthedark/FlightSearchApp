@@ -3,6 +3,8 @@ package com.flightservice.providera.service;
 import com.flightservice.providera.model.Flight;
 import com.flightservice.providera.model.SearchRequest;
 import com.flightservice.providera.model.SearchResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,18 +17,21 @@ import java.util.Random;
 @Service
 public class SearchService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(SearchService.class);
+
 	   public SearchResult availabilitySearch(SearchRequest request) {
 	        // Add basic validation
 	        if (request == null || 
 	            request.getOrigin() == null || request.getOrigin().trim().isEmpty() ||
 	            request.getDestination() == null || request.getDestination().trim().isEmpty() ||
 	            request.getDepartureDate() == null) {
-	            
+	            LOGGER.error("Invalid search parameters. Origin, destination, and departure date are required.");
 	            return new SearchResult(true, new ArrayList<>(), "Invalid search parameters. Origin, destination, and departure date are required.");
 	        }
 	        
 	        // Validate departure date is not in the past
 	        if (request.getDepartureDate().isBefore(LocalDateTime.now())) {
+				LOGGER.error("Departure date cannot be in the past.");
 	            return new SearchResult(true, new ArrayList<>(), "Departure date cannot be in the past.");
 	        }
 	        
@@ -86,7 +91,7 @@ public class SearchService {
 	            return new SearchResult(false, flightOptions, null);
 	            
 	        } catch (Exception e) {
-	            // Log the exception in a real application
+	            LOGGER.error("An error occurred while searching for flights: ", e);
 	            return new SearchResult(true, new ArrayList<>(), "An error occurred while searching for flights: " + e.getMessage());
 	        }
 	    }

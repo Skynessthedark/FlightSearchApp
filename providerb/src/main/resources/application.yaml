@@ -3,3 +3,23 @@ spring:
     name: providerb
 server:
   port: 8082
+
+logging:
+  level:
+    root: INFO
+    com.flightservice.providerb: DEBUG
+    org.springframework.ws.client: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+  file:
+    name: logs/console.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30

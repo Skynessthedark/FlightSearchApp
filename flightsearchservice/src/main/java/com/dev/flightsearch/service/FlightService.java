@@ -1,10 +1,13 @@
 package com.dev.flightsearch.service;
 
+import com.dev.flightsearch.controller.FlightController;
 import com.dev.flightsearch.payload.Flight;
 import com.dev.flightsearch.payload.FlightRequest;
 import com.dev.flightsearch.payload.record.FlightKey;
 import com.dev.flightsearch.service.client.FlightProviderAClient;
 import com.dev.flightsearch.service.client.FlightProviderBClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -12,6 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class FlightService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlightService.class);
 
     private final FlightProviderAClient flightProviderAClient;
     private final FlightProviderBClient flightProviderBClient;
@@ -23,23 +28,31 @@ public class FlightService {
 
     public List<Flight> getAllFlights(FlightRequest request) {
         List<Flight> flights = new ArrayList<>();
+
         flights.addAll(flightProviderAClient.searchFlights(request));
         flights.addAll(flightProviderBClient.searchFlights(request));
+
         return flights;
     }
 
     public List<Flight> getCheapestFlights(FlightRequest request) {
         List<Flight> flights = getAllFlights(request);
 
-        Map<FlightKey, List<Flight>> groupedFlights = flights.stream().collect(
-                Collectors.groupingBy(flight ->
-                        new FlightKey(flight.getFlightNumber(), flight.getDeparture(), flight.getArrival(),
-                            flight.getDepartureDate().toString(),flight.getArrivalDate().toString())));
+        try {
+            Map<FlightKey, List<Flight>> groupedFlights = flights.stream().collect(
+                    Collectors.groupingBy(flight ->
+                            new FlightKey(flight.getFlightNumber(), flight.getDeparture(), flight.getArrival(),
+                                    flight.getDepartureDate().toString(), flight.getArrivalDate().toString())));
 
-        List<Flight> cheapestFlights = new ArrayList<>(groupedFlights.values().stream().map(f ->
-                f.stream().min(Comparator.comparing(Flight::getPrice)).get()).toList());
+            List<Flight> cheapestFlights = new ArrayList<>(groupedFlights.values().stream().map(f ->
+                    f.stream().min(Comparator.comparing(Flight::getPrice)).get()).toList());
 
-        cheapestFlights.sort(Comparator.comparing(Flight::getPrice));
-        return cheapestFlights;
+            cheapestFlights.sort(Comparator.comparing(Flight::getPrice));
+            return cheapestFlights;
+        } catch (Exception e) {
+            LOGGER.error("Error while grouping flights.", e);
+        }
+
+        return List.of();
     }
 }

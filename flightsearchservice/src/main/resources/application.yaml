@@ -21,3 +21,24 @@ soap:
     url: http://localhost:8082/ws
 server:
   port: 8080
+
+
+logging:
+  level:
+    root: INFO
+    com.dev.flightsearch: DEBUG
+    org.springframework.ws.client: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+  file:
+    name: logs/flight-search.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30

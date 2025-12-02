@@ -6,6 +6,8 @@ import com.dev.flightsearch.payload.FlightRequest;
 import com.dev.flightsearch.payload.FlightResponse;
 import com.dev.flightsearch.service.FlightService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,14 +26,19 @@ public class FlightController {
 
     private final FlightService flightService;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlightController.class);
+
     public FlightController(FlightService flightService) {
         this.flightService = flightService;
     }
 
     @PostMapping("/all")
     public FlightResponse getAllFlights(@Valid @RequestBody FlightRequest request){
-        if(isDepartureDateInvalid(request))
+        if(isDepartureDateInvalid(request)){
+            LOGGER.error(String.format("Departure date cannot be in the past. Departure date: %s",
+                    request.getDepartureDate()));
             throw new InvalidFlightDateException("Departure date cannot be in the past.");
+        }
 
         List<Flight> flights = flightService.getAllFlights(request);
         FlightResponse response = new FlightResponse();
@@ -41,8 +48,11 @@ public class FlightController {
 
     @PostMapping("/cheapest")
     public FlightResponse getCheapestFlights(@Valid @RequestBody FlightRequest request){
-        if(isDepartureDateInvalid(request))
+        if(isDepartureDateInvalid(request)){
+            LOGGER.error(String.format("Departure date cannot be in the past. Departure date: %s",
+                    request.getDepartureDate()));
             throw new InvalidFlightDateException("Departure date cannot be in the past.");
+        }
 
         List<Flight> flights = flightService.getCheapestFlights(request);
         FlightResponse response = new FlightResponse();

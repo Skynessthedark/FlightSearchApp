@@ -3,11 +3,11 @@ package com.dev.flightsearch.service.client;
 import com.dev.flightsearch.model.enums.FlightProviderType;
 import com.dev.flightsearch.payload.Flight;
 import com.dev.flightsearch.payload.FlightRequest;
-import com.dev.flightsearch.payload.soap.FlightProviderARequest;
-import com.dev.flightsearch.payload.soap.FlightProviderAResponse;
 import com.dev.flightsearch.payload.soap.FlightProviderBRequest;
 import com.dev.flightsearch.payload.soap.FlightProviderBResponse;
 import com.dev.flightsearch.service.FlightProviderLogService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -21,6 +21,7 @@ public class FlightProviderBClient {
 
     private final WebServiceTemplate webServiceTemplate;
     private final FlightProviderLogService flightProviderLogService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlightProviderBClient.class);
 
     @Value("${soap.providerB.url}")
     private String providerBUrl;
@@ -33,15 +34,13 @@ public class FlightProviderBClient {
     public List<Flight> searchFlights(FlightRequest request) {
         FlightProviderBRequest soapRequest = getSoapRequest(request);
 
-        saveLog(soapRequest, null, false);
-
         FlightProviderBResponse response = null;
         try{
             response = (FlightProviderBResponse) webServiceTemplate.marshalSendAndReceive(providerBUrl, soapRequest);
             saveLog(soapRequest, response, Objects.isNull(response) || response.isHasError());
         }catch (Exception e){
             saveLog(soapRequest, null, true);
-            e.printStackTrace();
+            LOGGER.error("Error while searching flights from Provider B.", e);
         }
 
         return getFlightList(response);
@@ -68,9 +67,16 @@ public class FlightProviderBClient {
 
     private FlightProviderBRequest getSoapRequest(FlightRequest request) {
         FlightProviderBRequest soapRequest = new FlightProviderBRequest();
-        soapRequest.setDeparture(request.getDeparture());
-        soapRequest.setArrival(request.getArrival());
-        soapRequest.setDepartureDate(LocalDateTime.parse(request.getDepartureDate()));
+        try{
+            soapRequest.setDeparture(request.getDeparture());
+            soapRequest.setArrival(request.getArrival());
+            soapRequest.setDepartureDate(LocalDateTime.parse(request.getDepartureDate()));
+            saveLog(soapRequest, null, false);
+        }catch (Exception e){
+            LOGGER.error("Error while creating soap request for Provider B.", e);
+            saveLog(soapRequest, null, true);
+        }
+
         return soapRequest;
     }
 }
