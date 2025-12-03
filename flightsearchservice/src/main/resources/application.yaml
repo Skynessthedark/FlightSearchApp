@@ -1,44 +1,8 @@
 spring:
   application:
     name: flightsearch
-  datasource:
-    url: jdbc:postgresql://localhost:5432/flightsearchdb
-    username: postgres
-    password: flight123*
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-
-soap:
-  providerA:
-    url: http://localhost:8081/ws
-  providerB:
-    url: http://localhost:8082/ws
-server:
-  port: 8080
-
 
 logging:
   level:
     root: INFO
     com.dev.flightsearch: DEBUG
-    org.springframework.ws.client: INFO
-    org.springframework.web: INFO
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql: TRACE
-
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-
-  file:
-    name: logs/flight-search.log
-  logback:
-    rollingpolicy:
-      max-file-size: 10MB
-      max-history: 30

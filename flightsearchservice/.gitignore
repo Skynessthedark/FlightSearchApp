@@ -38,3 +38,5 @@ mvnw.cmd
 mvnw
 .mvn
 logs
+
+/src/main/resources/application-dev.yaml
